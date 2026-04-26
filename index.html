@@ -3,9 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Employee Records System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    
+    <!-- Login Page -->
+    <div class="login-container" id="loginPage">
+        <div class="login-box">
+            <div class="login-logo" style="text-align:center; margin-bottom: 18px;">
+                <img src="logo.png" alt="Company Logo" style="max-width:120px; width:60%; height:auto; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+            </div>
+            <div class="login-header">
+                <h1>Employee Records</h1>
+                <p>Sign in to continue</p>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter password" required>
+                </div>
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select id="role" required>
+                        <option value="">Select Role</option>
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </select>
+                </div>
+                <div class="login-error" id="loginError">Invalid credentials. Please try again.</div>
+                <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+            </form>
+        
+        </div>
+    </div>
+
+    <!-- Main App (hidden until logged in) -->
+    <div class="app-container" id="mainApp" style="display: none;">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">Employee Records</h1>
+                <div class="header-actions">
+                    <span class="user-info" id="userInfo"></span>
+                    <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+                    <span class="employee-count" id="employeeCount">0 employees</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Search and Filter Section -->
+            <section class="search-section">
+                <div class="search-bar">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <input type="text" id="searchInput" placeholder="Search by name, department, or position...">
+                </div>
+                <div class="filter-group">
+                    <select id="departmentFilter" class="filter-select">
+                        <option value="">All Departments</option>
+                        <option value="Engineering">Engineering</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Sales">Sales</option>
+                        <option value="HR">Human Resources</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Operations">Operations</option>
+                    </select>
+                    <select id="statusFilter" class="filter-select">
+                        <option value="">All Status</option>
+                        <option value="Active">Active</option>
+                        <option value="On Leave">On Leave</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- Add Employee Button -->
+            <section class="actions-section">
+                <button class="btn btn-primary" id="addEmployeeBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 5v14M5 12h14"></path>
+                    </svg>
+                    Add Employee
+                </button>
+            </section>
+
+            <!-- Employee Table -->
+            <section class="table-section">
+                <div class="table-container">
+                    <table class="employee-table" id="employeeTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Department</th>
+                                <th>Position</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeeTableBody">
+                            <!-- Employee rows will be inserted here -->
+                        </tbody>
+                    </table>
+                    <div class="empty-state" id="emptyState">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        <h3>No employees found</h3>
+                        <p>Add your first employee or adjust your search filters</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add/Edit Employee Modal -->
+    <div class="modal" id="employeeModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add Employee</h2>
+                <button class="modal-close" id="closeModal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6 6 18M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <form id="employeeForm" class="employee-form">
+                <input type="hidden" id="employeeId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="department">Department</label>
+                        <select id="department" required>
+                            <option value="">Select Department</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Sales">Sales</option>
+                            <option value="HR">Human Resources</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Operations">Operations</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="position">Position</label>
+                        <input type="text" id="position" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" required>
+                            <option value="Active">Active</option>
+                            <option value="On Leave">On Leave</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="hireDate">Hire Date</label>
+                    <input type="date" id="hireDate">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Employee</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Employee Modal -->
+    <div class="modal" id="viewModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-view">
+            <div class="modal-header">
+                <h2>Employee Details</h2>
+                <button class="modal-close" id="closeViewModal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6 6 18M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="employee-profile" id="employeeProfile">
+                <!-- Profile content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2>Confirm Delete</h2>
+                <button class="modal-close" id="closeDeleteModal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6 6 18M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="delete-confirmation">
+                <p>Are you sure you want to delete <strong id="deleteEmployeeName"></strong>?</p>
+                <p class="warning-text">This action cannot be undone.</p>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelDeleteBtn">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
