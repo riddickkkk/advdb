@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Records System</title>
+    <title>Aircon Service Management</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +17,7 @@
                 <img src="logo.png" alt="Company Logo" style="max-width:120px; width:60%; height:auto; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
             </div>
             <div class="login-header">
-                <h1>Employee Records</h1>
+                <h1>Aircon Service Management</h1>
                 <p>Sign in to continue</p>
             </div>
             <form id="loginForm" class="login-form">
@@ -49,17 +49,28 @@
         <!-- Header -->
         <header class="header">
             <div class="header-content">
-                <h1 class="logo">Employee Records</h1>
+                <h1 class="logo">Aircon Service Management</h1>
                 <div class="header-actions">
                     <span class="user-info" id="userInfo"></span>
                     <button class="btn btn-secondary" id="logoutBtn">Logout</button>
-                    <span class="employee-count" id="employeeCount">0 employees</span>
+                    <span class="employee-count" id="employeeCount">0 records</span>
                 </div>
             </div>
         </header>
 
         <!-- Main Content -->
         <main class="main-content">
+            <!-- Category Tabs -->
+            <section class="category-tabs">
+                <button class="category-tab active" data-category="Customer">Customers</button>
+                <button class="category-tab" data-category="Services">Services</button>
+                <button class="category-tab" data-category="Bookings">Bookings</button>
+                <button class="category-tab" data-category="Technicians">Technicians</button>
+                <button class="category-tab" data-category="Payments">Payments</button>
+                <button class="category-tab" data-category="Service History">Service History</button>
+                <button class="category-tab" data-category="Aircon Units">Aircon Units</button>
+            </section>
+
             <!-- Search and Filter Section -->
             <section class="search-section">
                 <div class="search-bar">
@@ -67,34 +78,28 @@
                         <circle cx="11" cy="11" r="8"></circle>
                         <path d="m21 21-4.35-4.35"></path>
                     </svg>
-                    <input type="text" id="searchInput" placeholder="Search by name, department, or position...">
+                    <input type="text" id="searchInput" placeholder="Search records...">
                 </div>
                 <div class="filter-group">
-                    <select id="departmentFilter" class="filter-select">
-                        <option value="">All Departments</option>
-                        <option value="Engineering">Engineering</option>
-                        <option value="Marketing">Marketing</option>
-                        <option value="Sales">Sales</option>
-                        <option value="HR">Human Resources</option>
-                        <option value="Finance">Finance</option>
-                        <option value="Operations">Operations</option>
-                    </select>
                     <select id="statusFilter" class="filter-select">
                         <option value="">All Status</option>
                         <option value="Active">Active</option>
-                        <option value="On Leave">On Leave</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Confirmed">Confirmed</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
                         <option value="Inactive">Inactive</option>
                     </select>
                 </div>
             </section>
 
-            <!-- Add Employee Button -->
+            <!-- Add Record Button -->
             <section class="actions-section">
                 <button class="btn btn-primary" id="addEmployeeBtn">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M12 5v14M5 12h14"></path>
                     </svg>
-                    Add Employee
+                    Add Record
                 </button>
             </section>
 
@@ -102,19 +107,18 @@
             <section class="table-section">
                 <div class="table-container">
                     <table class="employee-table" id="employeeTable">
-                        <thead>
+                        <thead id="tableHead">
                             <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Department</th>
-                                <th>Position</th>
+                                <th>Customer ID</th>
+                                <th>Customer Name</th>
+                                <th>Contact Number</th>
+                                <th>Address</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="employeeTableBody">
-                            <!-- Employee rows will be inserted here -->
+                            <!-- Records will be inserted here -->
                         </tbody>
                     </table>
                     <div class="empty-state" id="emptyState">
@@ -124,8 +128,8 @@
                             <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                             <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                         </svg>
-                        <h3>No employees found</h3>
-                        <p>Add your first employee or adjust your search filters</p>
+                        <h3>No records found</h3>
+                        <p>Add your first record or adjust your search filters</p>
                     </div>
                 </div>
             </section>
@@ -137,7 +141,7 @@
         <div class="modal-overlay"></div>
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modalTitle">Add Employee</h2>
+                <h2 id="modalTitle">Add Customer</h2>
                 <button class="modal-close" id="closeModal">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 6 6 18M6 6l12 12"></path>
@@ -146,59 +150,200 @@
             </div>
             <form id="employeeForm" class="employee-form">
                 <input type="hidden" id="employeeId">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="firstName">First Name</label>
-                        <input type="text" id="firstName" required>
+                <input type="hidden" id="recordType" value="Customer">
+                
+                <!-- Customer Fields -->
+                <div id="customerFields">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="customerId">Customer ID</label>
+                            <input type="text" id="customerId">
+                        </div>
+                        <div class="form-group">
+                            <label for="customerName">Customer Name</label>
+                            <input type="text" id="customerName">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contactNumber">Contact Number</label>
+                            <input type="tel" id="contactNumber">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email">
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="lastName">Last Name</label>
-                        <input type="text" id="lastName" required>
+                        <label for="address">Address</label>
+                        <input type="text" id="address">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" required>
-                </div>
-                <div class="form-row">
+
+                <!-- Service Fields -->
+                <div id="serviceFields" style="display:none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="serviceId">Service ID</label>
+                            <input type="text" id="serviceId">
+                        </div>
+                        <div class="form-group">
+                            <label for="serviceName">Service Name</label>
+                            <input type="text" id="serviceName">
+                        </div>
+                    </div>
                     <div class="form-group">
-                        <label for="department">Department</label>
-                        <select id="department" required>
-                            <option value="">Select Department</option>
-                            <option value="Engineering">Engineering</option>
-                            <option value="Marketing">Marketing</option>
-                            <option value="Sales">Sales</option>
-                            <option value="HR">Human Resources</option>
-                            <option value="Finance">Finance</option>
-                            <option value="Operations">Operations</option>
+                        <label for="price">Price</label>
+                        <input type="number" id="price" step="0.01">
+                    </div>
+                </div>
+
+                <!-- Booking Fields -->
+                <div id="bookingFields" style="display:none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bookingId">Booking ID</label>
+                            <input type="text" id="bookingId">
+                        </div>
+                        <div class="form-group">
+                            <label for="bookingCustomerId">Customer ID</label>
+                            <input type="text" id="bookingCustomerId">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bookingServiceId">Service ID</label>
+                            <input type="text" id="bookingServiceId">
+                        </div>
+                        <div class="form-group">
+                            <label for="bookingDate">Booking Date</label>
+                            <input type="date" id="bookingDate">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookingStatus">Status</label>
+                        <select id="bookingStatus">
+                            <option value="Pending">Pending</option>
+                            <option value="Confirmed">Confirmed</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="position">Position</label>
-                        <input type="text" id="position" required>
+                </div>
+
+                <!-- Technician Fields -->
+                <div id="technicianFields" style="display:none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="technicianId">Technician ID</label>
+                            <input type="text" id="technicianId">
+                        </div>
+                        <div class="form-group">
+                            <label for="technicianName">Technician Name</label>
+                            <input type="text" id="technicianName">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="techContactNumber">Contact Number</label>
+                            <input type="tel" id="techContactNumber">
+                        </div>
+                        <div class="form-group">
+                            <label for="specialization">Specialization</label>
+                            <input type="text" id="specialization">
+                        </div>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="phone">Phone</label>
-                        <input type="tel" id="phone">
+
+                <!-- Payment Fields -->
+                <div id="paymentFields" style="display:none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="paymentId">Payment ID</label>
+                            <input type="text" id="paymentId">
+                        </div>
+                        <div class="form-group">
+                            <label for="paymentBookingId">Booking ID</label>
+                            <input type="text" id="paymentBookingId">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="amount">Amount</label>
+                            <input type="number" id="amount" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="paymentDate">Payment Date</label>
+                            <input type="date" id="paymentDate">
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="status">Status</label>
-                        <select id="status" required>
-                            <option value="Active">Active</option>
-                            <option value="On Leave">On Leave</option>
-                            <option value="Inactive">Inactive</option>
+                        <label for="paymentMethod">Payment Method</label>
+                        <select id="paymentMethod">
+                            <option value="Cash">Cash</option>
+                            <option value="Credit Card">Credit Card</option>
+                            <option value="Debit Card">Debit Card</option>
+                            <option value="Bank Transfer">Bank Transfer</option>
+                            <option value="Online">Online</option>
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="hireDate">Hire Date</label>
-                    <input type="date" id="hireDate">
+
+                <!-- Service History Fields -->
+                <div id="historyFields" style="display:none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="historyId">History ID</label>
+                            <input type="text" id="historyId">
+                        </div>
+                        <div class="form-group">
+                            <label for="unitServiceRecord">Unit/Service Record</label>
+                            <input type="text" id="unitServiceRecord">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="serviceDate">Service Date</label>
+                            <input type="date" id="serviceDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="remarks">Remarks</label>
+                            <input type="text" id="remarks">
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Aircon Unit Fields -->
+                <div id="airconFields" style="display:none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="unitId">Unit ID</label>
+                            <input type="text" id="unitId">
+                        </div>
+                        <div class="form-group">
+                            <label for="airconCustomerId">Customer ID</label>
+                            <input type="text" id="airconCustomerId">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="brand">Brand</label>
+                            <input type="text" id="brand">
+                        </div>
+                        <div class="form-group">
+                            <label for="model">Model</label>
+                            <input type="text" id="model">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="type">Type</label>
+                        <input type="text" id="type">
+                    </div>
+                </div>
+
                 <div class="form-actions">
                     <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save Employee</button>
+                    <button type="submit" class="btn btn-primary">Save Record</button>
                 </div>
             </form>
         </div>
@@ -209,7 +354,7 @@
         <div class="modal-overlay"></div>
         <div class="modal-content modal-view">
             <div class="modal-header">
-                <h2>Employee Details</h2>
+                <h2>Customer Details</h2>
                 <button class="modal-close" id="closeViewModal">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 6 6 18M6 6l12 12"></path>

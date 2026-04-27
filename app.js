@@ -13,14 +13,11 @@ let currentUser = null;
 
 // Sample data
 let employees = [
-    { id: 1, firstName: 'John', lastName: 'Smith', email: 'john.smith@company.com', department: 'Engineering', position: 'Software Engineer', phone: '555-0101', status: 'Active', hireDate: '2023-01-15' },
-    { id: 2, firstName: 'Sarah', lastName: 'Johnson', email: 'sarah.johnson@company.com', department: 'Marketing', position: 'Marketing Manager', phone: '555-0102', status: 'Active', hireDate: '2022-06-20' },
-    { id: 3, firstName: 'Michael', lastName: 'Williams', email: 'michael.williams@company.com', department: 'Sales', position: 'Sales Representative', phone: '555-0103', status: 'On Leave', hireDate: '2023-03-10' },
-    { id: 4, firstName: 'Emily', lastName: 'Brown', email: 'emily.brown@company.com', department: 'HR', position: 'HR Specialist', phone: '555-0104', status: 'Active', hireDate: '2021-09-05' },
-    { id: 5, firstName: 'David', lastName: 'Davis', email: 'david.davis@company.com', department: 'Finance', position: 'Financial Analyst', phone: '555-0105', status: 'Inactive', hireDate: '2020-11-12' },
-    { id: 6, firstName: 'Jessica', lastName: 'Miller', email: 'jessica.miller@company.com', department: 'Engineering', position: 'Senior Developer', phone: '555-0106', status: 'Active', hireDate: '2022-02-28' },
-    { id: 7, firstName: 'Robert', lastName: 'Wilson', email: 'robert.wilson@company.com', department: 'Operations', position: 'Operations Manager', phone: '555-0107', status: 'Active', hireDate: '2021-07-14' },
-    { id: 8, firstName: 'Amanda', lastName: 'Taylor', email: 'amanda.taylor@company.com', department: 'Marketing', position: 'Content Writer', phone: '555-0108', status: 'Active', hireDate: '2023-08-01' }
+    { id: 1, firstName: 'CUST001', lastName: 'John Smith', email: 'john.smith@email.com', department: 'Customer', position: 'Residential', phone: '555-0101', status: 'Active', hireDate: '2023-01-15', address: '123 Main St' },
+    { id: 2, firstName: 'CUST002', lastName: 'Sarah Johnson', email: 'sarah.johnson@email.com', department: 'Customer', position: 'Commercial', phone: '555-0102', status: 'Active', hireDate: '2022-06-20', address: '456 Oak Ave' },
+    { id: 3, firstName: 'CUST003', lastName: 'Michael Williams', email: 'michael.williams@email.com', department: 'Customer', position: 'Residential', phone: '555-0103', status: 'Active', hireDate: '2023-03-10', address: '789 Pine Rd' },
+    { id: 4, firstName: 'CUST004', lastName: 'Emily Brown', email: 'emily.brown@email.com', department: 'Customer', position: 'Commercial', phone: '555-0104', status: 'Active', hireDate: '2021-09-05', address: '321 Elm St' },
+    { id: 5, firstName: 'CUST005', lastName: 'David Davis', email: 'david.davis@email.com', department: 'Customer', position: 'Residential', phone: '555-0105', status: 'Inactive', hireDate: '2020-11-12', address: '654 Maple Dr' }
 ];
 
 // DOM Elements
@@ -171,9 +168,9 @@ function renderEmployees() {
         const matchesSearch = !searchTerm || 
             emp.firstName.toLowerCase().includes(searchTerm) ||
             emp.lastName.toLowerCase().includes(searchTerm) ||
-            emp.department.toLowerCase().includes(searchTerm) ||
-            emp.position.toLowerCase().includes(searchTerm) ||
-            emp.email.toLowerCase().includes(searchTerm);
+            emp.email.toLowerCase().includes(searchTerm) ||
+            (emp.phone && emp.phone.toLowerCase().includes(searchTerm)) ||
+            (emp.address && emp.address.toLowerCase().includes(searchTerm));
         
         const matchesDepartment = !department || emp.department === department;
         const matchesStatus = !status || emp.status === status;
@@ -182,7 +179,7 @@ function renderEmployees() {
     });
 
     // Update employee count
-    employeeCount.textContent = `${filteredEmployees.length} employee${filteredEmployees.length !== 1 ? 's' : ''}`;
+    employeeCount.textContent = `${filteredEmployees.length} record${filteredEmployees.length !== 1 ? 's' : ''}`;
 
     // Show/hide empty state
     if (filteredEmployees.length === 0) {
@@ -209,11 +206,11 @@ function createEmployeeRow(emp) {
     
     return `
         <tr data-id="${emp.id}">
-            <td>#${emp.id.toString().padStart(4, '0')}</td>
-            <td>${emp.firstName} ${emp.lastName}</td>
-            <td>${emp.email}</td>
-            <td>${emp.department}</td>
-            <td>${emp.position}</td>
+            <td>${emp.firstName}</td>
+            <td>${emp.lastName}</td>
+            <td>${emp.email || 'N/A'}</td>
+            <td>${emp.phone || 'N/A'}</td>
+            <td>${emp.address || 'N/A'}</td>
             <td><span class="status-badge status-${statusClass}">${emp.status}</span></td>
             <td>
                 <div class="actions-cell">
@@ -239,18 +236,19 @@ function createEmployeeRow(emp) {
 // Modal functions
 function openModal(employee = null) {
     employeeModal.classList.add('active');
-    modalTitle.textContent = employee ? 'Edit Employee' : 'Add Employee';
+    modalTitle.textContent = employee ? 'Edit Customer' : 'Add Customer';
     
     if (employee) {
         document.getElementById('employeeId').value = employee.id;
         document.getElementById('firstName').value = employee.firstName;
         document.getElementById('lastName').value = employee.lastName;
-        document.getElementById('email').value = employee.email;
+        document.getElementById('email').value = employee.email || '';
         document.getElementById('department').value = employee.department;
         document.getElementById('position').value = employee.position;
         document.getElementById('phone').value = employee.phone || '';
         document.getElementById('status').value = employee.status;
         document.getElementById('hireDate').value = employee.hireDate || '';
+        document.getElementById('address').value = employee.address || '';
     } else {
         employeeForm.reset();
         document.getElementById('employeeId').value = '';
@@ -266,32 +264,43 @@ function viewEmployee(id) {
     const employee = employees.find(emp => emp.id === id);
     if (!employee) return;
 
-    const initials = `${employee.firstName[0]}${employee.lastName[0]}`;
     const statusClass = employee.status.toLowerCase().replace(' ', '-');
     
     employeeProfile.innerHTML = `
         <div class="profile-header">
-            <div class="profile-avatar">${initials}</div>
+            <div class="profile-avatar">${employee.firstName.substring(0, 4)}</div>
             <div class="profile-info">
-                <h3>${employee.firstName} ${employee.lastName}</h3>
+                <h3>${employee.lastName}</h3>
                 <p>${employee.position} - ${employee.department}</p>
             </div>
         </div>
         <div class="profile-details">
             <div class="profile-item">
-                <label>Email</label>
-                <span>${employee.email}</span>
+                <label>Customer ID</label>
+                <span>${employee.firstName}</span>
             </div>
             <div class="profile-item">
-                <label>Phone</label>
+                <label>Customer Name</label>
+                <span>${employee.lastName}</span>
+            </div>
+            <div class="profile-item">
+                <label>Email</label>
+                <span>${employee.email || 'N/A'}</span>
+            </div>
+            <div class="profile-item">
+                <label>Contact Number</label>
                 <span>${employee.phone || 'N/A'}</span>
             </div>
             <div class="profile-item">
-                <label>Department</label>
+                <label>Address</label>
+                <span>${employee.address || 'N/A'}</span>
+            </div>
+            <div class="profile-item">
+                <label>Category</label>
                 <span>${employee.department}</span>
             </div>
             <div class="profile-item">
-                <label>Position</label>
+                <label>Service</label>
                 <span>${employee.position}</span>
             </div>
             <div class="profile-item">
@@ -299,7 +308,7 @@ function viewEmployee(id) {
                 <span class="status-badge status-${statusClass}">${employee.status}</span>
             </div>
             <div class="profile-item">
-                <label>Hire Date</label>
+                <label>Date Added</label>
                 <span>${employee.hireDate ? formatDate(employee.hireDate) : 'N/A'}</span>
             </div>
         </div>
@@ -357,7 +366,8 @@ function handleFormSubmit(e) {
         position: document.getElementById('position').value,
         phone: document.getElementById('phone').value,
         status: document.getElementById('status').value,
-        hireDate: document.getElementById('hireDate').value
+        hireDate: document.getElementById('hireDate').value,
+        address: document.getElementById('address').value
     };
 
     if (employeeId) {

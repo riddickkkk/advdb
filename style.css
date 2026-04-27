@@ -321,6 +321,35 @@ body {
     box-shadow: 0 0 0 3px var(--primary-light);
 }
 
+/* Category Tabs */
+.category-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.category-tab {
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    background: var(--gray-100);
+    color: var(--gray-700);
+}
+
+.category-tab:hover {
+    background: var(--gray-200);
+}
+
+.category-tab.active {
+    background: var(--primary-color);
+    color: var(--white);
+}
+
 /* Actions Section */
 .actions-section {
     margin-bottom: 24px;
