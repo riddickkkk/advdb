@@ -14,39 +14,39 @@ let currentCategory = 'Customer';
 
 // Sample data for Customers
 let customers = [
-    { id: 1, firstName: 'CUST001', lastName: 'John Smith', email: 'john.smith@email.com', phone: '555-0101', address: '123 Main St', status: 'Active', hireDate: '2023-01-15' },
-    { id: 2, firstName: 'CUST002', lastName: 'Sarah Johnson', email: 'sarah.johnson@email.com', phone: '555-0102', address: '456 Oak Ave', status: 'Active', hireDate: '2022-06-20' },
-    { id: 3, firstName: 'CUST003', lastName: 'Michael Williams', email: 'michael.williams@email.com', phone: '555-0103', address: '789 Pine Rd', status: 'Active', hireDate: '2023-03-10' },
-    { id: 4, firstName: 'CUST004', lastName: 'Emily Brown', email: 'emily.brown@email.com', phone: '555-0104', address: '321 Elm St', status: 'Active', hireDate: '2021-09-05' },
-    { id: 5, firstName: 'CUST005', lastName: 'David Davis', email: 'david.davis@email.com', phone: '555-0105', address: '654 Maple Dr', status: 'Inactive', hireDate: '2020-11-12' }
+    { id: 1, customerId: 'CUST001', firstName: 'John', lastName: 'Smith', email: 'john.smith@email.com', phone: '555-0101', houseNumber: '123', barangay: 'Barangay Uno', city: 'Metro City', province: 'Province A', hireDate: '2023-01-15' },
+    { id: 2, customerId: 'CUST002', firstName: 'Sarah', lastName: 'Johnson', email: 'sarah.johnson@email.com', phone: '555-0102', houseNumber: '456', barangay: 'Barangay Dos', city: 'Metro City', province: 'Province A', hireDate: '2022-06-20' },
+    { id: 3, customerId: 'CUST003', firstName: 'Michael', lastName: 'Williams', email: 'michael.williams@email.com', phone: '555-0103', houseNumber: '789', barangay: 'Barangay Tres', city: 'Metro City', province: 'Province A', hireDate: '2023-03-10' },
+    { id: 4, customerId: 'CUST004', firstName: 'Emily', lastName: 'Brown', email: 'emily.brown@email.com', phone: '555-0104', houseNumber: '321', barangay: 'Barangay Cuatro', city: 'Metro City', province: 'Province A', hireDate: '2021-09-05' },
+    { id: 5, customerId: 'CUST005', firstName: 'David', lastName: 'Davis', email: 'david.davis@email.com', phone: '555-0105', houseNumber: '654', barangay: 'Barangay Cinco', city: 'Metro City', province: 'Province A', hireDate: '2020-11-12' }
 ];
 
 // Sample data for Services
 let services = [
-    { id: 1, serviceId: 'SVC001', serviceName: 'AC Repair', price: 150.00, status: 'Active' },
-    { id: 2, serviceId: 'SVC002', serviceName: 'AC Installation', price: 350.00, status: 'Active' },
-    { id: 3, serviceId: 'SVC003', serviceName: 'AC Maintenance', price: 80.00, status: 'Active' },
-    { id: 4, serviceId: 'SVC004', serviceName: 'Gas Refill', price: 100.00, status: 'Inactive' }
+    { id: 1, serviceId: 'SVC001', serviceName: 'AC Repair', price: 150.00 },
+    { id: 2, serviceId: 'SVC002', serviceName: 'AC Installation', price: 350.00 },
+    { id: 3, serviceId: 'SVC003', serviceName: 'AC Maintenance', price: 80.00 },
+    { id: 4, serviceId: 'SVC004', serviceName: 'Gas Refill', price: 100.00 }
 ];
 
 // Sample data for Bookings
 let bookings = [
-    { id: 1, bookingId: 'BKG001', customerId: 'CUST001', serviceId: 'SVC001', bookingDate: '2026-05-01', status: 'Pending', technicianId: '' },
-    { id: 2, bookingId: 'BKG002', customerId: 'CUST002', serviceId: 'SVC002', bookingDate: '2026-05-02', status: 'Confirmed', technicianId: 'TECH001' },
-    { id: 3, bookingId: 'BKG003', customerId: 'CUST003', serviceId: 'SVC003', bookingDate: '2026-05-03', status: 'Completed', technicianId: 'TECH002' }
+    { id: 1, bookingId: 'BKG001', customerId: 'CUST001', serviceId: 'SVC001', bookingDate: '2026-05-01', technicianId: '' },
+    { id: 2, bookingId: 'BKG002', customerId: 'CUST002', serviceId: 'SVC002', bookingDate: '2026-05-02', technicianId: 'TECH001' },
+    { id: 3, bookingId: 'BKG003', customerId: 'CUST003', serviceId: 'SVC003', bookingDate: '2026-05-03', technicianId: 'TECH002' }
 ];
 
 // Sample data for Technicians
 let technicians = [
-    { id: 1, technicianId: 'TECH001', name: 'Mike Johnson', contactNumber: '555-1001', specialization: 'Residential', status: 'Active' },
-    { id: 2, technicianId: 'TECH002', name: 'James Wilson', contactNumber: '555-1002', specialization: 'Commercial', status: 'Active' },
-    { id: 3, technicianId: 'TECH003', name: 'Robert Brown', contactNumber: '555-1003', specialization: 'Residential', status: 'On Leave' }
+    { id: 1, technicianId: 'TECH001', name: 'Mike Johnson', contactNumber: '555-1001', specialization: 'Residential' },
+    { id: 2, technicianId: 'TECH002', name: 'James Wilson', contactNumber: '555-1002', specialization: 'Commercial' },
+    { id: 3, technicianId: 'TECH003', name: 'Robert Brown', contactNumber: '555-1003', specialization: 'Residential' }
 ];
 
 // Sample data for Payments
 let payments = [
-    { id: 1, paymentId: 'PAY001', bookingId: 'BKG002', amount: 350.00, paymentDate: '2026-04-25', paymentMethod: 'Cash', status: 'Completed' },
-    { id: 2, paymentId: 'PAY002', bookingId: 'BKG003', amount: 80.00, paymentDate: '2026-04-26', paymentMethod: 'Credit Card', status: 'Completed' }
+    { id: 1, paymentId: 'PAY001', bookingId: 'BKG002', amount: 350.00, paymentDate: '2026-04-25', paymentMethod: 'Cash' },
+    { id: 2, paymentId: 'PAY002', bookingId: 'BKG003', amount: 80.00, paymentDate: '2026-04-26', paymentMethod: 'Credit Card' }
 ];
 
 // Sample data for Service History
@@ -57,8 +57,8 @@ let serviceHistory = [
 
 // Sample data for Aircon Units
 let airconUnits = [
-    { id: 1, unitId: 'UNIT001', customerId: 'CUST001', brand: 'Daikin', model: 'FTKF25', type: 'Split Type', status: 'Active' },
-    { id: 2, unitId: 'UNIT002', customerId: 'CUST002', brand: 'LG', model: 'LS-Q18CN', type: 'Split Type', status: 'Active' }
+    { id: 1, unitId: 'UNIT001', customerId: 'CUST001', brand: 'Daikin', model: 'FTKF25', type: 'Split Type' },
+    { id: 2, unitId: 'UNIT002', customerId: 'CUST002', brand: 'LG', model: 'LS-Q18CN', type: 'Split Type' }
 ];
 
 // Alias for backward compatibility
@@ -72,7 +72,6 @@ const loginError = document.getElementById('loginError');
 const userInfo = document.getElementById('userInfo');
 const logoutBtn = document.getElementById('logoutBtn');
 const searchInput = document.getElementById('searchInput');
-const statusFilter = document.getElementById('statusFilter');
 const employeeTableBody = document.getElementById('employeeTableBody');
 const employeeCount = document.getElementById('employeeCount');
 const emptyState = document.getElementById('emptyState');
@@ -170,7 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function setupEventListeners() {
     // Search and filters
     searchInput.addEventListener('input', renderRecords);
-    statusFilter.addEventListener('change', renderRecords);
 
     // Add employee button
     addEmployeeBtn.addEventListener('click', () => openModal());
@@ -225,7 +223,6 @@ function setupEventListeners() {
 // Render records based on current category
 function renderRecords() {
     const searchTerm = searchInput.value.toLowerCase();
-    const status = statusFilter.value;
     
     let data = [];
     let filteredData = [];
@@ -236,13 +233,16 @@ function renderRecords() {
             data = customers;
             filteredData = data.filter(item => {
                 const matchesSearch = !searchTerm || 
+                    (item.customerId && item.customerId.toLowerCase().includes(searchTerm)) ||
                     (item.firstName && item.firstName.toLowerCase().includes(searchTerm)) ||
                     (item.lastName && item.lastName.toLowerCase().includes(searchTerm)) ||
                     (item.email && item.email.toLowerCase().includes(searchTerm)) ||
                     (item.phone && item.phone.toLowerCase().includes(searchTerm)) ||
-                    (item.address && item.address.toLowerCase().includes(searchTerm));
-                const matchesStatus = !status || item.status === status;
-                return matchesSearch && matchesStatus;
+                    (item.houseNumber && item.houseNumber.toLowerCase().includes(searchTerm)) ||
+                    (item.barangay && item.barangay.toLowerCase().includes(searchTerm)) ||
+                    (item.city && item.city.toLowerCase().includes(searchTerm)) ||
+                    (item.province && item.province.toLowerCase().includes(searchTerm));
+                return matchesSearch;
             });
             break;
         case 'Services':
@@ -251,8 +251,7 @@ function renderRecords() {
                 const matchesSearch = !searchTerm || 
                     (item.serviceId && item.serviceId.toLowerCase().includes(searchTerm)) ||
                     (item.serviceName && item.serviceName.toLowerCase().includes(searchTerm));
-                const matchesStatus = !status || item.status === status;
-                return matchesSearch && matchesStatus;
+                return matchesSearch;
             });
             break;
         case 'Bookings':
@@ -261,8 +260,7 @@ function renderRecords() {
                 const matchesSearch = !searchTerm || 
                     (item.bookingId && item.bookingId.toLowerCase().includes(searchTerm)) ||
                     (item.customerId && item.customerId.toLowerCase().includes(searchTerm));
-                const matchesStatus = !status || item.status === status;
-                return matchesSearch && matchesStatus;
+                return matchesSearch;
             });
             break;
         case 'Technicians':
@@ -271,8 +269,7 @@ function renderRecords() {
                 const matchesSearch = !searchTerm || 
                     (item.technicianId && item.technicianId.toLowerCase().includes(searchTerm)) ||
                     (item.name && item.name.toLowerCase().includes(searchTerm));
-                const matchesStatus = !status || item.status === status;
-                return matchesSearch && matchesStatus;
+                return matchesSearch;
             });
             break;
         case 'Payments':
@@ -281,8 +278,7 @@ function renderRecords() {
                 const matchesSearch = !searchTerm || 
                     (item.paymentId && item.paymentId.toLowerCase().includes(searchTerm)) ||
                     (item.bookingId && item.bookingId.toLowerCase().includes(searchTerm));
-                const matchesStatus = !status || item.status === status;
-                return matchesSearch && matchesStatus;
+                return matchesSearch;
             });
             break;
         case 'Service History':
@@ -301,8 +297,7 @@ function renderRecords() {
                     (item.unitId && item.unitId.toLowerCase().includes(searchTerm)) ||
                     (item.customerId && item.customerId.toLowerCase().includes(searchTerm)) ||
                     (item.brand && item.brand.toLowerCase().includes(searchTerm));
-                const matchesStatus = !status || item.status === status;
-                return matchesSearch && matchesStatus;
+                return matchesSearch;
             });
             break;
         default:
@@ -362,17 +357,19 @@ function updateTableHeaders(category) {
     const headers = {
         'Customer': `<tr>
             <th>Customer ID</th>
-            <th>Customer Name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>House No.</th>
+            <th>Barangay</th>
+            <th>City</th>
+            <th>Province</th>
             <th>Contact Number</th>
-            <th>Address</th>
-            <th>Status</th>
             <th>Actions</th>
         </tr>`,
         'Services': `<tr>
             <th>Service ID</th>
             <th>Service Name</th>
             <th>Price</th>
-            <th>Status</th>
             <th>Actions</th>
         </tr>`,
         'Bookings': `<tr>
@@ -380,7 +377,6 @@ function updateTableHeaders(category) {
             <th>Customer ID</th>
             <th>Service ID</th>
             <th>Booking Date</th>
-            <th>Status</th>
             <th>Actions</th>
         </tr>`,
         'Technicians': `<tr>
@@ -388,7 +384,6 @@ function updateTableHeaders(category) {
             <th>Name</th>
             <th>Contact Number</th>
             <th>Specialization</th>
-            <th>Status</th>
             <th>Actions</th>
         </tr>`,
         'Payments': `<tr>
@@ -396,7 +391,6 @@ function updateTableHeaders(category) {
             <th>Booking ID</th>
             <th>Amount</th>
             <th>Payment Date</th>
-            <th>Status</th>
             <th>Actions</th>
         </tr>`,
         'Service History': `<tr>
@@ -423,7 +417,6 @@ function updateTableHeaders(category) {
 
 // Create table row based on category
 function createRecordRow(item) {
-    const statusClass = item.status ? item.status.toLowerCase().replace(' ', '-') : 'active';
     const isAdmin = currentUser && currentUser.role === 'admin';
     const deleteButton = isAdmin ? `<button class="btn btn-icon" onclick="deleteRecord(${item.id})" title="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>` : '';
     
@@ -432,11 +425,14 @@ function createRecordRow(item) {
     switch(currentCategory) {
         case 'Customer':
             row = `<tr data-id="${item.id}">
+                <td>${item.customerId || 'N/A'}</td>
                 <td>${item.firstName || 'N/A'}</td>
                 <td>${item.lastName || 'N/A'}</td>
+                <td>${item.houseNumber || 'N/A'}</td>
+                <td>${item.barangay || 'N/A'}</td>
+                <td>${item.city || 'N/A'}</td>
+                <td>${item.province || 'N/A'}</td>
                 <td>${item.phone || 'N/A'}</td>
-                <td>${item.address || 'N/A'}</td>
-                <td><span class="status-badge status-${statusClass}">${item.status || 'Active'}</span></td>
                 <td><div class="actions-cell">
                     <button class="btn btn-icon" onclick="viewRecord(${item.id})" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
                     <button class="btn btn-icon" onclick="editRecord(${item.id})" title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
@@ -449,7 +445,6 @@ function createRecordRow(item) {
                 <td>${item.serviceId || 'N/A'}</td>
                 <td>${item.serviceName || 'N/A'}</td>
                 <td>$${item.price ? item.price.toFixed(2) : '0.00'}</td>
-                <td><span class="status-badge status-${statusClass}">${item.status || 'Active'}</span></td>
                 <td><div class="actions-cell">
                     <button class="btn btn-icon" onclick="viewRecord(${item.id})" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
                     <button class="btn btn-icon" onclick="editRecord(${item.id})" title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
@@ -463,7 +458,6 @@ function createRecordRow(item) {
                 <td>${item.customerId || 'N/A'}</td>
                 <td>${item.serviceId || 'N/A'}</td>
                 <td>${item.bookingDate || 'N/A'}</td>
-                <td><span class="status-badge status-${statusClass}">${item.status || 'Pending'}</span></td>
                 <td><div class="actions-cell">
                     <button class="btn btn-icon" onclick="viewRecord(${item.id})" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
                     <button class="btn btn-icon" onclick="editRecord(${item.id})" title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
@@ -477,7 +471,6 @@ function createRecordRow(item) {
                 <td>${item.name || 'N/A'}</td>
                 <td>${item.contactNumber || 'N/A'}</td>
                 <td>${item.specialization || 'N/A'}</td>
-                <td><span class="status-badge status-${statusClass}">${item.status || 'Active'}</span></td>
                 <td><div class="actions-cell">
                     <button class="btn btn-icon" onclick="viewRecord(${item.id})" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
                     <button class="btn btn-icon" onclick="editRecord(${item.id})" title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
@@ -491,7 +484,6 @@ function createRecordRow(item) {
                 <td>${item.bookingId || 'N/A'}</td>
                 <td>$${item.amount ? item.amount.toFixed(2) : '0.00'}</td>
                 <td>${item.paymentDate || 'N/A'}</td>
-                <td><span class="status-badge status-${statusClass}">${item.status || 'Pending'}</span></td>
                 <td><div class="actions-cell">
                     <button class="btn btn-icon" onclick="viewRecord(${item.id})" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
                     <button class="btn btn-icon" onclick="editRecord(${item.id})" title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
@@ -551,7 +543,7 @@ function viewRecord(id) {
     
     let details = '';
     for (const [key, value] of Object.entries(item)) {
-        if (key !== 'id') {
+        if (key !== 'id' && key !== 'status') {
             details += `<div class="profile-item"><label>${key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</label><span>${value || 'N/A'}</span></div>`;
         }
     }
@@ -612,7 +604,6 @@ function deleteRecord(id) {
 
 // Create employee table row
 function createEmployeeRow(emp) {
-    const statusClass = emp.status ? emp.status.toLowerCase().replace(' ', '-') : 'active';
     const isAdmin = currentUser && currentUser.role === 'admin';
     const deleteButton = isAdmin ? `
         <button class="btn btn-icon" onclick="deleteEmployee(${emp.id})" title="Delete">
@@ -629,7 +620,6 @@ function createEmployeeRow(emp) {
             <td>${emp.lastName || 'N/A'}</td>
             <td>${emp.phone || 'N/A'}</td>
             <td>${emp.address || 'N/A'}</td>
-            <td><span class="status-badge status-${statusClass}">${emp.status || 'Active'}</span></td>
             <td>
                 <div class="actions-cell">
                     <button class="btn btn-icon" onclick="viewEmployee(${emp.id})" title="View">
@@ -666,13 +656,14 @@ function openModal(employee = null) {
         // Populate fields based on category
         switch(currentCategory) {
             case 'Customer':
-                document.getElementById('customerId').value = employee.firstName || '';
-                document.getElementById('customerName').value = employee.lastName || '';
+                document.getElementById('customerFirstName').value = employee.firstName || '';
+                document.getElementById('customerLastName').value = employee.lastName || '';
                 document.getElementById('email').value = employee.email || '';
                 document.getElementById('contactNumber').value = employee.phone || '';
-                document.getElementById('address').value = employee.address || '';
-                const statusEl = document.getElementById('status');
-                if (statusEl) statusEl.value = employee.status || 'Active';
+                document.getElementById('houseNumber').value = employee.houseNumber || '';
+                document.getElementById('barangay').value = employee.barangay || '';
+                document.getElementById('city').value = employee.city || '';
+                document.getElementById('province').value = employee.province || '';
                 break;
             case 'Services':
                 document.getElementById('serviceId').value = employee.serviceId || '';
@@ -684,7 +675,6 @@ function openModal(employee = null) {
                 document.getElementById('bookingCustomerId').value = employee.customerId || '';
                 document.getElementById('bookingServiceId').value = employee.serviceId || '';
                 document.getElementById('bookingDate').value = employee.bookingDate || '';
-                document.getElementById('bookingStatus').value = employee.status || 'Pending';
                 break;
             case 'Technicians':
                 document.getElementById('technicianId').value = employee.technicianId || '';
@@ -727,8 +717,6 @@ function closeModal() {
 function viewEmployee(id) {
     const employee = employees.find(emp => emp.id === id);
     if (!employee) return;
-
-    const statusClass = employee.status.toLowerCase().replace(' ', '-');
     
     employeeProfile.innerHTML = `
         <div class="profile-header">
@@ -766,10 +754,6 @@ function viewEmployee(id) {
             <div class="profile-item">
                 <label>Service</label>
                 <span>${employee.position}</span>
-            </div>
-            <div class="profile-item">
-                <label>Status</label>
-                <span class="status-badge status-${statusClass}">${employee.status}</span>
             </div>
             <div class="profile-item">
                 <label>Date Added</label>
@@ -854,14 +838,18 @@ function handleFormSubmit(e) {
     switch(recordType) {
         case 'Customer':
             newId = employeeId ? parseInt(employeeId) : Math.max(...customers.map(e => e.id), 0) + 1;
+            const existingCustomer = employeeId ? customers.find(c => c.id === parseInt(employeeId)) : null;
             const customerData = {
                 id: newId,
-                firstName: document.getElementById('customerId').value || 'CUST' + String(newId).padStart(3, '0'),
-                lastName: document.getElementById('customerName').value,
+                customerId: existingCustomer ? existingCustomer.customerId : 'CUST' + String(newId).padStart(3, '0'),
+                firstName: document.getElementById('customerFirstName').value,
+                lastName: document.getElementById('customerLastName').value,
                 email: document.getElementById('email').value,
                 phone: document.getElementById('contactNumber').value,
-                address: document.getElementById('address').value,
-                status: document.getElementById('status') ? document.getElementById('status').value : 'Active',
+                houseNumber: document.getElementById('houseNumber').value,
+                barangay: document.getElementById('barangay').value,
+                city: document.getElementById('city').value,
+                province: document.getElementById('province').value,
                 hireDate: new Date().toISOString().split('T')[0]
             };
             if (employeeId) {
@@ -879,8 +867,7 @@ function handleFormSubmit(e) {
                 id: newId,
                 serviceId: document.getElementById('serviceId').value || 'SVC' + String(newId).padStart(3, '0'),
                 serviceName: document.getElementById('serviceName').value,
-                price: parseFloat(document.getElementById('price').value) || 0,
-                status: 'Active'
+                price: parseFloat(document.getElementById('price').value) || 0
             };
             if (employeeId) {
                 const idx = services.findIndex(s => s.id === parseInt(employeeId));
@@ -898,7 +885,6 @@ function handleFormSubmit(e) {
                 customerId: document.getElementById('bookingCustomerId').value,
                 serviceId: document.getElementById('bookingServiceId').value,
                 bookingDate: document.getElementById('bookingDate').value,
-                status: document.getElementById('bookingStatus').value,
                 technicianId: ''
             };
             if (employeeId) {
@@ -916,8 +902,7 @@ function handleFormSubmit(e) {
                 technicianId: document.getElementById('technicianId').value || 'TECH' + String(newId).padStart(3, '0'),
                 name: document.getElementById('technicianName').value,
                 contactNumber: document.getElementById('techContactNumber').value,
-                specialization: document.getElementById('specialization').value,
-                status: 'Active'
+                specialization: document.getElementById('specialization').value
             };
             if (employeeId) {
                 const idx = technicians.findIndex(t => t.id === parseInt(employeeId));
@@ -935,8 +920,7 @@ function handleFormSubmit(e) {
                 bookingId: document.getElementById('paymentBookingId').value,
                 amount: parseFloat(document.getElementById('amount').value) || 0,
                 paymentDate: document.getElementById('paymentDate').value,
-                paymentMethod: document.getElementById('paymentMethod').value,
-                status: 'Completed'
+                paymentMethod: document.getElementById('paymentMethod').value
             };
             if (employeeId) {
                 const idx = payments.findIndex(p => p.id === parseInt(employeeId));
@@ -971,8 +955,7 @@ function handleFormSubmit(e) {
                 customerId: document.getElementById('airconCustomerId').value,
                 brand: document.getElementById('brand').value,
                 model: document.getElementById('model').value,
-                type: document.getElementById('type').value,
-                status: 'Active'
+                type: document.getElementById('type').value
             };
             if (employeeId) {
                 const idx = airconUnits.findIndex(u => u.id === parseInt(employeeId));
